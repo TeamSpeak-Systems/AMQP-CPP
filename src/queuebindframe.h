@@ -19,7 +19,7 @@ private:
      *  Deprecated field
      *  @var uint16_t
      */
-    uint16_t _deprecated = 0;
+    uint16_t _deprecated;
 
     /**
      *  Queue name
@@ -51,6 +51,7 @@ private:
      */
     Table _arguments;
 
+	QueueBindFrame(); //not implemented
 protected:
     /**
      *  Encode the frame into a buffer
@@ -86,8 +87,9 @@ public:
      *  @param   Bool noWait         do not wait for a response
      *  @param   Table arguments     additional arguments
      */
-    QueueBindFrame(uint16_t channel, const std::string& name, const std::string& exchange, const std::string& routingKey = "", bool noWait = false, const Table& arguments = {}) :
+    QueueBindFrame(uint16_t channel, const std::string& name, const std::string& exchange, const std::string& routingKey = "", bool noWait = false, const Table& arguments = Table()) :
         QueueFrame(channel, (name.length() + exchange.length() + routingKey.length() + arguments.size() + 6) ), // 3 extra per string, 1 for bools, 2 for deprecated field
+		_deprecated(0),
         _name(name),
         _exchange(exchange),
         _routingKey(routingKey),

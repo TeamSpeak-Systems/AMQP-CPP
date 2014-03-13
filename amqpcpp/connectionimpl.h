@@ -42,13 +42,13 @@ protected:
         state_connected,            // connection is set up and ready for communication
         state_closing,              // connection is busy closing (we have sent the close frame)
         state_closed                // connection is closed
-    } _state = state_protocol;
+    } _state;
     
     /**
      *  Has the close() method been called?
      *  @var    bool
      */
-    bool _closed = false;
+    bool _closed;
     
     /**
      *  All channels that are active
@@ -60,19 +60,19 @@ protected:
      *  The last unused channel ID
      *  @var    uint16_t
      */
-    uint16_t _nextFreeChannel = 1;
+    uint16_t _nextFreeChannel;
     
     /**
      *  Max number of channels (0 for unlimited)
      *  @var    uint16_t
      */
-    uint16_t _maxChannels = 0;
+    uint16_t _maxChannels;
     
     /**
      *  Max frame size
      *  @var    uint32_t
      */
-    uint32_t _maxFrame = 10000;
+    uint32_t _maxFrame;
 
     /**
      *  The login for the server (login, password)

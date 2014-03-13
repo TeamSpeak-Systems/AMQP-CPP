@@ -19,7 +19,7 @@ private:
      *  Weight field, unused but must be sent, always value 0;
      *  @var uint16_t
      */
-    uint16_t _weight = 0;
+    uint16_t _weight;
 
     /**
      *  Body size, sum of the sizes of all body frames following the content header
@@ -33,6 +33,7 @@ private:
      */
     MetaData _metadata;
 
+	BasicHeaderFrame(); //not implemented
 protected:
     /**
      *  Encode a header frame to a string buffer
@@ -63,6 +64,7 @@ public:
      */
     BasicHeaderFrame(uint16_t channel, const Envelope &envelope) :
         HeaderFrame(channel, 10 + envelope.size()), // there are at least 10 bytes sent, weight (2), bodySize (8), plus the size of the meta data
+		_weight(0),
         _bodySize(envelope.bodySize()),
         _metadata(envelope)
     {}

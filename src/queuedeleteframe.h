@@ -19,7 +19,7 @@ private:
      *  Field that is no longer in use
      *  @var int16_t
      */
-    int16_t _deprecated = 0;
+    int16_t _deprecated;
 
     /**
      *  the queue name
@@ -36,6 +36,7 @@ private:
      */
     BooleanSet _bools;
 
+	QueueDeleteFrame(); //not implemented
 protected:
     /**
      *  Encode a frame on a string buffer
@@ -70,6 +71,7 @@ public:
      */
     QueueDeleteFrame(uint16_t channel, const std::string& name, bool ifUnused = false, bool ifEmpty = false, bool noWait = false) :
         QueueFrame(channel, name.length() + 4), // 1 for string length, 1 for bools, 2 for deprecated field
+		_deprecated(0),
         _name(name),
         _bools(ifUnused, ifEmpty, noWait)
     {}

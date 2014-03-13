@@ -51,7 +51,10 @@ namespace AMQP {
 ChannelImpl::ChannelImpl(Channel *parent, Connection *connection, ChannelHandler *handler) :
     _parent(parent),
     _connection(&connection->_implementation),
-    _handler(handler)
+    _handler(handler),
+	_state(state_connected),
+	_transaction(false),
+	_message(nullptr)
 {
     // add the channel to the connection
     _id = _connection->add(this);

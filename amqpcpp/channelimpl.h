@@ -51,19 +51,19 @@ private:
         state_connected,
         state_closing,
         state_closed
-    } _state = state_connected;
+    } _state;
     
     /**
      *  Is a transaction now active?
      *  @var bool
      */
-    bool _transaction = false;
+    bool _transaction;
     
     /**
      *  The message that is now being received
      *  @var MessageImpl
      */
-    MessageImpl *_message = nullptr;
+    MessageImpl *_message;
 
     /**
      *  Construct a channel object

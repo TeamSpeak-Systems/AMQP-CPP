@@ -21,12 +21,12 @@
 // base C include files
 #include <stdint.h>
 #include <math.h>
-#include <endian.h>
 
 // forward declarations
 #include <amqpcpp/classes.h>
 
 // utility classes
+#include <amqpcpp/endian_xplatform.h>
 #include <amqpcpp/receivedframe.h>
 #include <amqpcpp/outbuffer.h>
 #include <amqpcpp/watchable.h>

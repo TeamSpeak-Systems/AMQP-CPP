@@ -129,7 +129,7 @@ public:
      *  Get the maximum allowed value for this field
      *  @return mixed
      */
-    constexpr static T max()
+    static T max()
     {
         return std::numeric_limits<T>::max();
     }

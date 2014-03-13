@@ -52,13 +52,13 @@ protected:
      *  Delivery mode (non-persistent (1) or persistent (2))
      *  @var    UOctet
      */
-    UOctet _deliveryMode = 0;
+    UOctet _deliveryMode;
 
     /**
      *  boolean whether field was sent to us
      *  @var    UOctet
      */
-    UOctet _priority = 0;
+    UOctet _priority;
 
     /**
      *  application correlation identifier
@@ -119,7 +119,7 @@ protected:
      *  Protected constructor to ensure that this class can only be constructed
      *  in a derived class
      */
-    MetaData() {}
+    MetaData(): _deliveryMode(0), _priority(0) {}
     
     
 public:
@@ -129,7 +129,9 @@ public:
      */
     MetaData(ReceivedFrame &frame) :
         _bools1(frame),
-        _bools2(frame)
+        _bools2(frame),
+		_deliveryMode(0), 
+		_priority(0)
     {
         // only copy the properties that were sent
         if (hasContentType())       _contentType = ShortString(frame);

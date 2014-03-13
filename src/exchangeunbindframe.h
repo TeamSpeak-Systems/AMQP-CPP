@@ -19,7 +19,7 @@ private:
      *  reserved byte
      *  @var uint16_t
      */
-    uint16_t _reserved = 0;
+    uint16_t _reserved;
 
     /**
      *  Exchange to bind to
@@ -51,6 +51,7 @@ private:
      */
     Table _arguments;
   
+	ExchangeUnbindFrame(); //not implemented
 protected:
     /**
      *  Encode a frame on a string buffer
@@ -96,6 +97,7 @@ public:
      */
     ExchangeUnbindFrame(uint16_t channel, const std::string &destination, const std::string &source, const std::string &routingKey, bool noWait, const Table &arguments) :
         ExchangeFrame(channel, (destination.length() + source.length() + routingKey.length() + arguments.size() + 6)), // 1 for each string, 1 for booleanset, 2 for deprecated field
+		_reserved(0),
         _destination(destination),
         _source(source),
         _routingKey(routingKey),

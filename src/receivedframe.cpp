@@ -82,7 +82,7 @@ namespace AMQP {
  *  @param  size        Size of the buffer
  *  @param  max         Max size for a frame
  */
-ReceivedFrame::ReceivedFrame(const char *buffer, uint32_t size, uint32_t max) : _buffer(buffer), _left(size)
+ReceivedFrame::ReceivedFrame(const char *buffer, uint32_t size, uint32_t max) : _buffer(buffer), _left(size), _type(0), _channel(0), _payloadSize(0)
 {
     // we need enough room for type, channel, the payload size and the end-of-frame byte
     if (size < 8) return;
