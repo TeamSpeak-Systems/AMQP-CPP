@@ -21,7 +21,7 @@ protected:
      *  @param  channel     channel we're working on
      *  @param  size        size of the frame
      */
-    ChannelFrame(uint16_t channel, uint32_t size) : MethodFrame(channel, size) {}
+    ChannelFrame(uint16_t channel, size_t size) : MethodFrame(channel, size) {}
 
     /**
      *  Constructor that parses an incoming frame

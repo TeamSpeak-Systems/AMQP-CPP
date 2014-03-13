@@ -23,7 +23,7 @@ protected:
      * 
      *  @param  size        size of the frame
      */
-    ConnectionFrame(uint32_t size) : MethodFrame(0, size) {}
+    ConnectionFrame(size_t size) : MethodFrame(0, size) {}
 
     /**
      *  Constructor based on a received frame

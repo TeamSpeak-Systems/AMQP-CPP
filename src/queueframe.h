@@ -20,7 +20,7 @@ protected:
      *  @param  channel  channel identifier
      *  @param   size     size of the frame
      */
-    QueueFrame(uint16_t channel, uint32_t size) : MethodFrame(channel, size) {}
+    QueueFrame(uint16_t channel, size_t size) : MethodFrame(channel, size) {}
 
     /**
      *  Constructor based on incoming data

@@ -21,7 +21,7 @@ protected:
      *  @param  channel     channel we're working on
      *  @param  size        size of the frame.
      */
-    MethodFrame(uint16_t channel, uint32_t size) : ExtFrame(channel, size + 4) {} // size of classID and methodID
+    MethodFrame(uint16_t channel, size_t size) : ExtFrame(channel, size + 4) {} // size of classID and methodID
     
     /**
      *  Load a method from from a received frame

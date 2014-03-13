@@ -104,7 +104,7 @@ ReceivedFrame::ReceivedFrame(const char *buffer, uint32_t size, uint32_t max) : 
     else
     {
         // frame is not yet valid
-        _type = _channel = _payloadSize = 0;
+       _payloadSize = _channel = _type = 0;
     }
 }
 
@@ -529,6 +529,17 @@ bool ReceivedFrame::processHeaderFrame(ConnectionImpl *connection)
     // this is a problem
     throw ProtocolException("unrecognized header frame class " + std::to_string(classID));
 }
+
+template<> uint8_t ReceivedFrameNextValue<uint8_t>(ReceivedFrame& f){ return f.nextUint8();} 
+template<> int8_t ReceivedFrameNextValue<int8_t>(ReceivedFrame& f){ return f.nextInt8();} 
+template<> uint16_t ReceivedFrameNextValue<uint16_t>(ReceivedFrame& f){ return f.nextUint16();} 
+template<> int16_t ReceivedFrameNextValue<int16_t>(ReceivedFrame& f){ return f.nextInt16();} 
+template<> uint32_t ReceivedFrameNextValue<uint32_t>(ReceivedFrame& f){ return f.nextUint32();} 
+template<> int32_t ReceivedFrameNextValue<int32_t>(ReceivedFrame& f){ return f.nextInt32();} 
+template<> uint64_t ReceivedFrameNextValue<uint64_t>(ReceivedFrame& f){ return f.nextUint64();} 
+template<> int64_t ReceivedFrameNextValue<int64_t>(ReceivedFrame& f){ return f.nextInt64();} 
+template<> float ReceivedFrameNextValue<float>(ReceivedFrame& f){ return f.nextFloat();} 
+template<> double ReceivedFrameNextValue<double>(ReceivedFrame& f){ return f.nextDouble();} 
 
 /**
  *  End of namespace

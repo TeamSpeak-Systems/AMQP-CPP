@@ -123,7 +123,7 @@ size_t ConnectionImpl::parse(char *buffer, size_t size)
         try
         {
             // try to recognize the frame
-            ReceivedFrame receivedFrame(buffer, size, _maxFrame);
+            ReceivedFrame receivedFrame(buffer, static_cast<uint32_t>(size), _maxFrame);
             if (!receivedFrame.complete()) return processed;
 
             // process the frame

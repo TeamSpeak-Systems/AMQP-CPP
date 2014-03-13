@@ -253,8 +253,9 @@ public:
      *  The checker may access private data
      */
     friend class FrameCheck;
-
 };
+
+template<typename T> T ReceivedFrameNextValue(ReceivedFrame& f); //unimplemented prototype
 
 /**
  *  End of namespace

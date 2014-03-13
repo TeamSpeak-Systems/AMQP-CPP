@@ -28,7 +28,7 @@ protected:
      *  @param  channel     channel we're working on
      *  @param  size        size of the payload
      */
-    ExchangeFrame(uint16_t channel, uint32_t size) : MethodFrame(channel, size) {}
+    ExchangeFrame(uint16_t channel, size_t size) : MethodFrame(channel, size) {}
 
 public:
     /**

@@ -51,7 +51,7 @@ public:
     {
         // update the buffer and the number of bytes left
         _frame->_buffer += _size;
-        _frame->_left -= _size;
+        _frame->_left -= static_cast<uint32_t>(_size);
     }
 };
 

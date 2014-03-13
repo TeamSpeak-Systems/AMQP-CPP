@@ -85,7 +85,7 @@ public:
     virtual size_t size() const override
     {
         // find out size of the size parameter
-        T size(_data.size());
+        T size(static_cast<T::ValueType>(_data.size()));
         
         // size of the uint8 or uint32 + the actual string size
         return size.size() + _data.size();
@@ -126,7 +126,7 @@ public:
     virtual void fill(OutBuffer& buffer) const override
     {
         // create size
-        T size(_data.size());
+        T size( static_cast<T::ValueType>(_data.size()));
         
         // first, write down the size of the string
         size.fill(buffer);

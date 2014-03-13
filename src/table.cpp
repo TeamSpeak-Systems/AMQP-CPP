@@ -20,7 +20,7 @@ Table::Table(ReceivedFrame &frame)
         ShortString name(frame);
         
         // subtract number of bytes to read, plus one byte for the decoded type
-        bytesToRead -= (name.size() + 1);
+        bytesToRead -= static_cast<uint32_t>(name.size() + 1);
         
         // get the field
         Field *field = Field::decode(frame);
@@ -30,7 +30,7 @@ Table::Table(ReceivedFrame &frame)
         _fields[name] = std::shared_ptr<Field>(field);
         
         // subtract size
-        bytesToRead -= field->size();
+        bytesToRead -= static_cast<uint32_t>(field->size());
     }
 }
 

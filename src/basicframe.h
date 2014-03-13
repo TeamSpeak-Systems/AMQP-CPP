@@ -20,7 +20,7 @@ protected:
      *  @param  channel     The channel ID
      *  @param  size        Payload size
      */
-    BasicFrame(uint16_t channel, uint32_t size) : MethodFrame(channel, size) {}
+    BasicFrame(uint16_t channel, size_t size) : MethodFrame(channel, size) {}
 
     /**
      *  Constructor based on a received frame

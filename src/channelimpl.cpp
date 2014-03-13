@@ -192,7 +192,7 @@ bool ChannelImpl::declareExchange(const std::string &name, ExchangeType type, in
     if (type == ExchangeType::headers)exchangeType = "headers";
 
     // send declare exchange frame
-    return send(ExchangeDeclareFrame(_id, name, exchangeType, flags & passive, flags & durable, flags & nowait, arguments));
+    return send(ExchangeDeclareFrame(_id, name, exchangeType, (flags & passive) != 0, (flags & durable) != 0, (flags & nowait) != 0, arguments));
 }
 
 /**
@@ -207,7 +207,7 @@ bool ChannelImpl::declareExchange(const std::string &name, ExchangeType type, in
 bool ChannelImpl::bindExchange(const std::string &source, const std::string &target, const std::string &routingkey, int flags, const Table &arguments)
 {
     // send exchange bind frame
-    return send(ExchangeBindFrame(_id, target, source, routingkey, flags & nowait, arguments));
+    return send(ExchangeBindFrame(_id, target, source, routingkey, (flags & nowait) != 0, arguments));
 }
 
 /**
@@ -222,7 +222,7 @@ bool ChannelImpl::bindExchange(const std::string &source, const std::string &tar
 bool ChannelImpl::unbindExchange(const std::string &source, const std::string &target, const std::string &routingkey, int flags, const Table &arguments)
 {
     // send exchange unbind frame
-    return send(ExchangeUnbindFrame(_id, target, source, routingkey, flags & nowait, arguments));
+    return send(ExchangeUnbindFrame(_id, target, source, routingkey, (flags & nowait) !=0, arguments));
 }
 
 /**
@@ -234,7 +234,7 @@ bool ChannelImpl::unbindExchange(const std::string &source, const std::string &t
 bool ChannelImpl::removeExchange(const std::string &name, int flags)
 {
     // send delete exchange frame
-    return send(ExchangeDeleteFrame(_id, name, flags & ifunused, flags & nowait));
+    return send(ExchangeDeleteFrame(_id, name, (flags & ifunused) !=0, (flags & nowait) !=0));
 }
 
 /**
@@ -247,7 +247,7 @@ bool ChannelImpl::removeExchange(const std::string &name, int flags)
 bool ChannelImpl::declareQueue(const std::string &name, int flags, const Table &arguments)
 {
     // send the queuedeclareframe
-    return send(QueueDeclareFrame(_id, name, flags & passive, flags & durable, flags & exclusive, flags & autodelete, flags & nowait, arguments));
+    return send(QueueDeclareFrame(_id, name, (flags & passive) !=0, (flags & durable) !=0, (flags & exclusive) !=0, (flags & autodelete) !=0, (flags & nowait) !=0, arguments));
 }
 
 /**
@@ -262,7 +262,7 @@ bool ChannelImpl::declareQueue(const std::string &name, int flags, const Table &
 bool ChannelImpl::bindQueue(const std::string &exchangeName, const std::string &queueName, const std::string &routingkey, int flags, const Table &arguments)
 {
     // send the bind queue frame
-    return send(QueueBindFrame(_id, queueName, exchangeName, routingkey, flags & nowait, arguments));
+    return send(QueueBindFrame(_id, queueName, exchangeName, routingkey, (flags & nowait) !=0, arguments));
 }
 
 /**
@@ -288,7 +288,7 @@ bool ChannelImpl::unbindQueue(const std::string &exchange, const std::string &qu
 bool ChannelImpl::purgeQueue(const std::string &name, int flags)
 {
     // send the queue purge frame
-    return send(QueuePurgeFrame(_id, name, flags & nowait));
+    return send(QueuePurgeFrame(_id, name, (flags & nowait) !=0));
 }
 
 /**
@@ -300,7 +300,7 @@ bool ChannelImpl::purgeQueue(const std::string &name, int flags)
 bool ChannelImpl::removeQueue(const std::string &name, int flags)
 {
     // send the remove queue frame
-    return send(QueueDeleteFrame(_id, name, flags & ifunused, flags & ifempty, flags & nowait));
+    return send(QueueDeleteFrame(_id, name, (flags & ifunused) !=0, (flags & ifempty) !=0, (flags & nowait) !=0));
 }
 
 /**
@@ -327,7 +327,7 @@ bool ChannelImpl::publish(const std::string &exchange, const std::string &routin
     // @todo do not copy the entire buffer to individual frames
     
     // send the publish frame
-    if (!send(BasicPublishFrame(_id, exchange, routingKey, flags & mandatory, flags & immediate))) return false;
+    if (!send(BasicPublishFrame(_id, exchange, routingKey, (flags & mandatory) !=0, (flags & immediate) !=0))) return false;
     
     // channel still valid?
     if (!monitor.valid()) return false;
@@ -344,7 +344,7 @@ bool ChannelImpl::publish(const std::string &exchange, const std::string &routin
     
     // the buffer
     const char *data = envelope.body();
-    uint32_t bytesleft = envelope.bodySize();
+    uint32_t bytesleft = static_cast<uint32_t>(envelope.bodySize());
     
     // split up the body in multiple frames depending on the max frame size
     while (bytesleft > 0)
@@ -389,7 +389,7 @@ bool ChannelImpl::setQos(uint16_t prefetchCount)
 bool ChannelImpl::consume(const std::string &queue, const std::string &tag, int flags, const Table &arguments)
 {
     // send a consume frame
-    return send(BasicConsumeFrame(_id, queue, tag, flags & nolocal, flags & noack, flags & exclusive, flags & nowait, arguments));
+    return send(BasicConsumeFrame(_id, queue, tag, (flags & nolocal) != 0, (flags & noack) != 0, (flags & exclusive) !=0, (flags & nowait) !=0, arguments));
 }
 
 /**
@@ -400,7 +400,7 @@ bool ChannelImpl::consume(const std::string &queue, const std::string &tag, int 
 bool ChannelImpl::cancel(const std::string &tag, int flags)
 {
     // send a cancel frame
-    return send(BasicCancelFrame(_id, tag, flags & nowait));
+    return send(BasicCancelFrame(_id, tag, (flags & nowait) !=0));
 }
 
 /**
@@ -412,7 +412,7 @@ bool ChannelImpl::cancel(const std::string &tag, int flags)
 bool ChannelImpl::ack(uint64_t deliveryTag, int flags)
 {
     // send an ack frame
-    return send(BasicAckFrame(_id, deliveryTag, flags & multiple));
+    return send(BasicAckFrame(_id, deliveryTag, (flags & multiple)!=0));
 }
 
 /**
@@ -424,7 +424,7 @@ bool ChannelImpl::ack(uint64_t deliveryTag, int flags)
 bool ChannelImpl::reject(uint64_t deliveryTag, int flags)
 {
     // send a nack frame
-    return send(BasicNackFrame(_id, deliveryTag, flags & multiple, flags & requeue));
+    return send(BasicNackFrame(_id, deliveryTag, (flags & multiple)!=0, (flags & requeue)!=0));
 }
 
 /**
@@ -435,7 +435,7 @@ bool ChannelImpl::reject(uint64_t deliveryTag, int flags)
 bool ChannelImpl::recover(int flags)
 {
     // send a nack frame
-    return send(BasicRecoverFrame(_id, flags & requeue));
+    return send(BasicRecoverFrame(_id, (flags & requeue) != 0));
 }
 
 /**

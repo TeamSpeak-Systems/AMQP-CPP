@@ -93,7 +93,7 @@ public:
         if (index > 7) return false;
 
         // magic bit manipulation...
-        return (bool)((1 << index) & _byte);
+        return ((1 << index) & _byte) != 0;
     }
 
     /**

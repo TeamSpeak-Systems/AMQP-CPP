@@ -29,7 +29,7 @@ Array::Array(ReceivedFrame &frame)
         if (!field) continue;
 
         // less bytes to read
-        charsToRead -= field->size();
+        charsToRead -= static_cast<uint32_t>(field->size());
 
         // add the additional field
         _fields.push_back(std::shared_ptr<Field>(field));

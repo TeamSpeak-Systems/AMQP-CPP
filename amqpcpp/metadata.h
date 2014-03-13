@@ -273,7 +273,7 @@ public:
     uint32_t size() const
     {
         // the result (2 for the two boolean sets)
-        uint32_t result = 2;
+        size_t result = 2;
         
         if (hasExpiration())        result += _expiration.size();
         if (hasReplyTo())           result += _replyTo.size();
@@ -291,7 +291,7 @@ public:
         if (hasMessageID())         result += _messageID.size();
         
         // done
-        return result;
+        return static_cast<uint32_t>(result);
     }
     
     /**

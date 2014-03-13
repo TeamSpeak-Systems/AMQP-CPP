@@ -27,6 +27,7 @@ private:
     T _value;
 
 public:
+	typedef T ValueType;
     /**
      *  Default constructor, assign 0
      */
@@ -46,26 +47,7 @@ public:
      */
     NumericField(ReceivedFrame &frame)
     {
-        // copy the data from the buffer into the field
-        if (!std::is_floating_point<T>::value)
-        {
-            // convert value based on internal storage size
-            switch (sizeof(T))
-            {
-                case 1: _value = frame.nextUint8();  break;
-                case 2: _value = frame.nextUint16(); break;
-                case 4: _value = frame.nextUint32(); break;
-                case 8: _value = frame.nextUint64(); break;
-            }
-        }
-        else
-        {
-            switch (sizeof(T))
-            {
-                case 4: _value = frame.nextFloat();  break;
-                case 8: _value = frame.nextDouble(); break;
-            }
-        }
+		_value = ReceivedFrameNextValue<T>(frame);
     }
 
     /**

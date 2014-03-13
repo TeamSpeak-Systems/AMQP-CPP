@@ -42,7 +42,7 @@ protected:
      *  @param  channel         channel we're working on
      *  @param  size            size of the payload
      */
-    ExtFrame(uint16_t channel, uint32_t size) : _channel(channel), _size(size) {} 
+    ExtFrame(uint16_t channel, size_t size) : _channel(channel), _size(static_cast<uint32_t>(size)) {} 
 
     /**
      *  Constructor based on a received not-yet-recognized frame
