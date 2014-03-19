@@ -29,7 +29,7 @@ namespace AMQP {
  *  @param  login           Login data
  */
 ConnectionImpl::ConnectionImpl(Connection *parent, ConnectionHandler *handler, const Login &login, const std::string &vhost) :
-    _parent(parent), _state(state_protocol), _closed(false), _handler(handler), _nextFreeChannel(1), _maxChannels(0), _maxFrame(10000), _login(login), _vhost(vhost)
+    _parent(parent), _handler(handler), _state(state_protocol), _closed(false), _nextFreeChannel(1), _maxChannels(0), _maxFrame(10000), _login(login), _vhost(vhost)
 {
     // we need to send a protocol header
     send(ProtocolHeaderFrame());
