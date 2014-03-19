@@ -10,6 +10,7 @@
  */
 #include <amqpcpp.h>
 #include <string>
+#include <iostream>
 
 /**
  *  Namespaces to use
@@ -131,9 +132,6 @@ std::size_t MyConnection::onIoBytesRead(char *buffer, std::size_t bytesAvailable
     // let the data be handled by the connection
     std::size_t consumed = _connection->parse(buffer, bytesAvailable);
 
-	// send what came in
-    std::cout << "received: " << bytesAvailable << " bytes. consumed: " << consumed << std::endl;
-    
     return consumed;
 }
 

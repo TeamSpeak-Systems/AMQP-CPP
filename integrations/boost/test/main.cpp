@@ -16,6 +16,7 @@
  */
 #include <amqpcpp.h>
 #include <boost/asio.hpp>
+#include <iostream>
 
 /**
  *  Namespaces to use
