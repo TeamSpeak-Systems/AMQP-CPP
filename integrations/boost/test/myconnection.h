@@ -7,6 +7,7 @@
  */
 
 #include "../boostnetworkhandler.h"
+#include <cstdint>
 
 /**
  *  Class definition

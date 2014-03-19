@@ -130,7 +130,7 @@ size_t ConnectionImpl::parse(char *buffer, size_t size)
             receivedFrame.process(this);
 
             // number of bytes processed
-            size_t bytes = receivedFrame.totalSize();
+            size_t bytes = static_cast<std::size_t>(receivedFrame.totalSize());
             
             // add bytes
             processed += bytes; size -= bytes; buffer += bytes;

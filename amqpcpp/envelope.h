@@ -84,7 +84,7 @@ public:
      */
     std::string message() const
     {
-        return std::string(_body, _bodySize);
+        return std::string(_body, static_cast<const std::size_t>(_bodySize));
     }
 };
 
