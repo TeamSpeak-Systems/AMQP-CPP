@@ -111,7 +111,6 @@
           'amqpcpp/field.h',
           'amqpcpp/fieldproxy.h',
           'amqpcpp/flags.h',
-          'amqpcpp/hfiles.txt',
           'amqpcpp/login.h',
           'amqpcpp/message.h',
           'amqpcpp/metadata.h',
@@ -123,6 +122,36 @@
           'amqpcpp/watchable.h',
         ],
 		'include_dirs' : ['.'],
-	  }
+		'direct_dependent_settings': {
+          'include_dirs': ['.'],
+        },
+	  },
+	  
+	  {
+        'target_name': 'amqpcpp-test',
+        'type': 'executable',
+		'msvs_guid': 'C9AE7931-C77E-427F-B715-38F340B6C7FD',
+		'conditions': [
+			['OS=="win"', {
+			 'defines': [ "_WIN32_WINNT=0x0501" ],
+			}]
+		],
+        'include_dirs': [  ],
+        'dependencies': [
+          'amqpcpp',
+        ],
+        'sources': [
+          'integrations/boost/boostnetworkhandler.h',
+          'integrations/boost/boostreadbuffer.h',
+          'integrations/boost/boostsslnetworkhandler.h',
+          'integrations/boost/boostwritebuffer.h',
+          'integrations/boost/test/main.cpp',
+          'integrations/boost/test/myconnection.cpp',
+          'integrations/boost/test/myconnection.h',
+        ],
+      },
+
+	  
+	  
     ]
   }

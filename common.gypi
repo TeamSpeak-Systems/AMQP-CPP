@@ -4,7 +4,8 @@
     'target_arch%': 'x86',          # set target architecture
     'host_arch%': 'x86',            # set host architecture
     'library%': 'static_library',    # allow override to 'shared_library' for DLL/.so builds
-    'msvs_multi_core_compile': '0',  # we do enable multicore compiles
+    'msvs_multi_core_compile': 'true',  # we do enable multicore compiles
+	'subsystem%': 'console',
   },
 
  'target_defaults':
@@ -131,14 +132,19 @@
         'ExceptionHandling': 1, # /EHsc
         'SuppressStartupBanner': 'true',
         'WarnAsError': 'false',
-		'MultiProcessorCompilation' : 'true',
+		'AdditionalOptions' :'-D_USING_V110_SDK71_', #needed for xp compatibility
+#		'MultiProcessorCompilation' : '<(msvs_multi_core_compile)',
       },
       'VCLibrarianTool': {
       },
       'VCLinkerTool': {
         'conditions': [
           ['target_arch=="x64"', {
-            'TargetMachine' : 17 # /MACHINE:X64
+            'TargetMachine' : 17, # /MACHINE:X64
+			'MinimumRequiredVersion': '5.02', #needed for xp compatibility
+          }],
+          ['target_arch=="x86"', {
+			'MinimumRequiredVersion': '5.01', #needed for xp compatibility
           }],
         ],
         'GenerateDebugInformation': 'true',
@@ -162,6 +168,7 @@
           'WIN32',
           # we don't really want VC++ warning us about
           # how dangerous C functions are...
+		  '_SCL_SECURE_NO_WARNINGS',
           '_CRT_SECURE_NO_DEPRECATE',
           # ... or that C implementations shouldn't use
           # POSIX names
