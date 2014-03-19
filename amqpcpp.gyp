@@ -140,6 +140,12 @@
         'dependencies': [
           'amqpcpp',
         ],
+	    'msvs_settings': {
+			'VCLinkerTool': {
+				'SubSystem': 1, #console
+			}
+		},
+
         'sources': [
           'integrations/boost/boostnetworkhandler.h',
           'integrations/boost/boostreadbuffer.h',
@@ -150,8 +156,6 @@
           'integrations/boost/test/myconnection.h',
         ],
       },
-
-	  
 	  
     ]
   }

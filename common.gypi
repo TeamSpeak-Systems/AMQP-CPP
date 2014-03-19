@@ -5,7 +5,6 @@
     'host_arch%': 'x86',            # set host architecture
     'library%': 'static_library',    # allow override to 'shared_library' for DLL/.so builds
     'msvs_multi_core_compile': 'true',  # we do enable multicore compiles
-	'subsystem%': 'console',
   },
 
  'target_defaults':
@@ -106,7 +105,7 @@
           },
           'VCLinkerTool':
 		  {
-            'AdditionalLibraryDirectories':[ '\\projects\\msvc2012\\PlatformArchitecture\\>(runtime)\\lib'],
+            'AdditionalLibraryDirectories':[ '\\projects\\msvc2012\\>(target_bits)\\>(runtime)\\lib'],
             'LinkTimeCodeGeneration': 1,
             'OptimizeReferences': 2,
             'EnableCOMDATFolding': 2,
