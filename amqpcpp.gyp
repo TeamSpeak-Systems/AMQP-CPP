@@ -94,7 +94,7 @@
           'src/transactionselectframe.h',
           'src/transactionselectokframe.h',
 		  
-		  'amqpcpp/array.h',
+          'amqpcpp/array.h',
           'amqpcpp/booleanset.h',
           'amqpcpp/channel.h',
           'amqpcpp/channelhandler.h',
@@ -121,13 +121,30 @@
           'amqpcpp/table.h',
           'amqpcpp/watchable.h',
         ],
-		'include_dirs' : ['.'],
-		'direct_dependent_settings': {
-          'include_dirs': ['.'],
+	'include_dirs' : ['.'],
+	'direct_dependent_settings': {
+        'include_dirs': ['.'],
+	
+
+        'conditions':
+	[
+          [
+            'OS!="win"', 
+            {
+              'link_settings': 
+	      {
+                'libraries': ['-lboost_system-s' , '-lpthread', '-lssl-s', '-lcrypto-s', '-ldl'],
+              }
+            }
+          ],
+        ],
+
+
+
         },
-	  },
-	  
-	  {
+      },
+      
+      {
         'target_name': 'amqpcpp-test',
         'type': 'executable',
 		'msvs_guid': 'C9AE7931-C77E-427F-B715-38F340B6C7FD',

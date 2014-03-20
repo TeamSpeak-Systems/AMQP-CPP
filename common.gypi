@@ -1,6 +1,7 @@
 {
-   'variables': {
-	'visibility%': 'hidden',         # visibility setting
+  'variables': 
+  {
+    'visibility%': 'hidden',         # visibility setting
     'target_arch%': 'x86',          # set target architecture
     'host_arch%': 'x86',            # set host architecture
     'library%': 'static_library',    # allow override to 'shared_library' for DLL/.so builds
@@ -10,27 +11,55 @@
  'target_defaults':
   {
 
-   'variables': {
-	'conditions': [
-        ['OS=="win" and runtime=="shared"', {
-          # See http://msdn.microsoft.com/en-us/library/aa652367.aspx
-          'win_release_RuntimeLibrary%': '2', # 2 = /MD (nondebug DLL)
-          'win_debug_RuntimeLibrary%': '3',   # 3 = /MDd (debug DLL)
-		 }],
-		 [ 'OS=="win" and runtime=="static"', {
-          # See http://msdn.microsoft.com/en-us/library/aa652367.aspx
-          'win_release_RuntimeLibrary%': '0', # 0 = /MT (nondebug static)
-          'win_debug_RuntimeLibrary%': '1',   # 1 = /MTd (debug static)
-        }],
-		['target_arch=="x86"', { 'target_bits' : 32 }],
-		['target_arch=="x64"', { 'target_bits' : 64 }],
+    'variables':
+    {
+      'runtime%': 'static',             #either static or shared
+      'gcc_dep_root%' : '/you_forgot_to_set_gcc_dep_root/',
+      'conditions':
+      [
+        [
+          'OS=="win" and runtime=="shared"', 
+          {
+            # See http://msdn.microsoft.com/en-us/library/aa652367.aspx
+            'win_release_RuntimeLibrary%': '2', # 2 = /MD (nondebug DLL)
+            'win_debug_RuntimeLibrary%': '3',   # 3 = /MDd (debug DLL)
+          }
+        ],
+        [
+          'OS=="win" and runtime=="static"',
+          {
+            # See http://msdn.microsoft.com/en-us/library/aa652367.aspx
+           'win_release_RuntimeLibrary%': '0', # 0 = /MT (nondebug static)
+           'win_debug_RuntimeLibrary%': '1',   # 1 = /MTd (debug static)
+          }
+        ],
+        [
+          'OS!="win"',
+          {
+            'win_release_RuntimeLibrary%': 'invalid',
+            'win_debug_RuntimeLibrary%': 'invalid',
+          }
+        ],    
+        [
+          'target_arch=="x86"', { 'target_bits' : 32 }
+        ],
+        [
+          'target_arch=="x64"', { 'target_bits' : 64 }
+        ],
+        [
+          'host_arch=="x86"', { 'host_bits' : 32 }
+        ],
+        [
+          'host_arch=="x64"', { 'host_bits' : 64 }
+        ],
       ],
-  },
- 
-	'msvs_configuration_attributes' : {
-		'OutputDirectory' : '$(SolutionDir)build\\$(Platform)\\$(Configuration)\\$(ProjectName)\\',
-		'IntermediateDirectory' : '$(SolutionDir)build\\$(Platform)\\$(Configuration)\\$(ProjectName)\\obj\\',
-	},
+    },
+
+    'msvs_configuration_attributes' :
+    {
+      'OutputDirectory' : '$(SolutionDir)build\\$(Platform)\\$(Configuration)\\$(ProjectName)\\',
+      'IntermediateDirectory' : '$(SolutionDir)build\\$(Platform)\\$(Configuration)\\$(ProjectName)\\obj\\',
+    },
     'msbuild_toolset': 'v110_xp',
     'default_configuration': 'Release',
     'configurations':
@@ -38,8 +67,9 @@
       'Debug':
 	  {
         'defines': [ 'DEBUG', '_DEBUG' ],
-		'cflags': [ '-g', '-O0', '-fno-stack-protector', '-std=c11' ],
-		'cflags_cc': [ '-g', '-O0', '-fno-stack-protector', '-std=c++11'],
+		'cflags': [ '-g', '-O0' ],
+		'cflags_c': [ '--std=c11' ],
+		'cflags_cc': [ '--std=c++11' ],
 		'conditions': [
           ['target_arch=="x64"', {
             'msvs_configuration_platform': 'x64',
@@ -77,8 +107,9 @@
 	  'Release':
 	  {
         'defines': [ 'NDEBUG' ],
-		'cflags': [ '-g', '-O2', '-fno-stack-protector', '-std=c11' ],
-		'cflags_cc': [ '-g', '-O2', '-fno-stack-protector', '-std=c++11'],
+		'cflags': [ '-g', '-O2', '-fno-stack-protector' ],
+		'cflags_c': [ '--std=c11'],
+		'cflags_cc': [ '--std=c++11'],
 		'conditions': [
           ['target_arch=="x64"', {
             'msvs_configuration_platform': 'x64',
@@ -178,6 +209,8 @@
         'cflags': [ '-Wall', '-pthread', ],
         'cflags_cc': [ '-Wall', '-pthread',],
         'ldflags': [ '-pthread', ],
+        'include_dirs': [ '>(gcc_dep_root)/>(target_bits)/include' ],
+        'library_dirs': [ '>(gcc_dep_root)/>(target_bits)/lib' ],
         'conditions': [
           [ 'target_arch=="x86"', {
             'cflags': [ '-m32' ],
